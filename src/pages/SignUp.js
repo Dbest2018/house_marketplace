@@ -1,7 +1,86 @@
-import React from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
+import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
 const SignUp = () => {
-  return <div>Sign Up</div>;
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const { name, email, password } = formData;
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
+
+  return (
+    <>
+      <div className="pageContainer">
+        <header>
+          <p className="pageHeader">Sign Up to the hub!</p>
+        </header>
+
+        <form>
+          <input
+            type="text"
+            className="nameInput"
+            placeholder="Name"
+            id="name"
+            value={name}
+            onChange={handleChange}
+          />
+          <input
+            type="email"
+            className="emailInput"
+            placeholder="email@gmail.com"
+            id="email"
+            value={email}
+            onChange={handleChange}
+          />
+
+          <div className="passwordInputDiv">
+            <input
+              type={showPassword ? "text" : "password"}
+              className="passwordInput"
+              placeholder="Password"
+              id="password"
+              value={password}
+              onChange={handleChange}
+            />
+
+            <img
+              src={visibilityIcon}
+              alt="show password"
+              className="showPassword"
+              onClick={() => setShowPassword((prev) => !prev)}
+            />
+          </div>
+          <Link to="/forgot-password" className="forgotPasswordLink">
+            Forgot Password
+          </Link>
+
+          <div className="signUpBar">
+            <p className="signUpText">Sign Up</p>
+            <button className="signUpButton">
+              <ArrowRightIcon fill="#ffffff" width="34px" height="34px" />
+            </button>
+          </div>
+        </form>
+
+        <Link to="/sign-in" className="registerLink">
+          Have account? sign in
+        </Link>
+      </div>
+    </>
+  );
 };
 
 export default SignUp;
