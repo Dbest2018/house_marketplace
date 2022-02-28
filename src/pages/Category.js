@@ -17,6 +17,18 @@ const Category = () => {
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const params = useParams();
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      try {
+        const listingRef = collection(db, "listings");
+      } catch (error) {}
+    };
+
+    fetchListings();
+  }, []);
+
   return <div>Category</div>;
 };
 
