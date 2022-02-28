@@ -44,7 +44,9 @@ const Category = () => {
 
         setListings(collectionlistings);
         setLoading(false);
-      } catch (error) {}
+      } catch (error) {
+        toast.error("Could not fetch listings");
+      }
     };
 
     fetchListings();
