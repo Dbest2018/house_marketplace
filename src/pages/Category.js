@@ -22,14 +22,28 @@ const Category = () => {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const listingRef = collection(db, "listings");
+        const listingsRef = collection(db, "listings");
 
         const q = query(
-          listings,
+          listingsRef,
           where("type", "==", params.categoryName),
           orderBy("timestamp", "desc"),
           limit(10)
         );
+
+        const querySnap = await getDocs(q);
+
+        const collectionlistings = [];
+
+        querySnap.forEach((doc) => {
+          return collectionlistings.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+        });
+
+        setListings(collectionlistings);
+        setLoading(false);
       } catch (error) {}
     };
 
