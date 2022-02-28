@@ -23,6 +23,13 @@ const Category = () => {
     const fetchListings = async () => {
       try {
         const listingRef = collection(db, "listings");
+
+        const q = query(
+          listings,
+          where("type", "==", params.categoryName),
+          orderBy("timestamp", "desc"),
+          limit(10)
+        );
       } catch (error) {}
     };
 
