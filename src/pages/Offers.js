@@ -51,7 +51,7 @@ const Offers = () => {
     };
 
     fetchListings();
-  }, [params.categoryName]);
+  }, []);
 
   return (
     <div className="category">
