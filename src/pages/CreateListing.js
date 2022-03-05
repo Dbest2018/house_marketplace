@@ -16,6 +16,7 @@ import Spinner from "../components/Spinner";
 
 const CreateListing = () => {
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [geolocationEnabled, setGeolocationEnabled] = useState(false);
   const [listing, setListing] = useState({
     type: "rent",
