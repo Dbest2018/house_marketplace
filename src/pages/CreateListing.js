@@ -141,7 +141,6 @@ const CreateListing = () => {
     } else {
       geolocation.lat = latitude;
       geolocation.lng = longitude;
-      location = address;
     }
 
     // Store image in firebase
@@ -200,9 +199,9 @@ const CreateListing = () => {
       timestamp: serverTimestamp(),
     };
 
+    listingCopy.location = address;
     delete listingCopy.images;
     delete listingCopy.address;
-    location && (listingCopy.location = location);
     !listingCopy.offer && delete listingCopy.discountedPrice;
 
     const docRef = await addDoc(collection(db, "listings"), listingCopy);
