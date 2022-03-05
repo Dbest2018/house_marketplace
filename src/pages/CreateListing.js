@@ -59,7 +59,32 @@ const CreateListing = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted]);
 
-  const onMutate = (e) => {};
+  const onMutate = (e) => {
+    let boolean = null;
+
+    if (e.target.value === "true") {
+      boolean = true;
+    }
+    if (e.target.value === "false") {
+      boolean = false;
+    }
+
+    // Files
+    if (e.target.files) {
+      setListing((prevListing) => ({
+        ...prevListing,
+        images: e.target.files,
+      }));
+    }
+
+    // Text/Booleans/Numbers
+    if (!e.target.files) {
+      setListing((prevListing) => ({
+        ...prevListing,
+        [e.target.id]: boolean ?? e.target.value,
+      }));
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
