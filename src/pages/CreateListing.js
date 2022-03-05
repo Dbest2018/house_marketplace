@@ -6,6 +6,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,7 +16,7 @@ import Spinner from "../components/Spinner";
 
 const CreateListing = () => {
   const [loading, setLoading] = useState(false);
-  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
+  const [geolocationEnabled, setGeolocationEnabled] = useState(false);
   const [listing, setListing] = useState({
     type: "rent",
     name: "",
@@ -190,6 +191,23 @@ const CreateListing = () => {
       toast.error("Images not uploaded");
       return;
     });
+
+    const listingCopy = {
+      ...listing,
+      imgUrls,
+      geolocation,
+      timestamp: serverTimestamp(),
+    };
+
+    delete listingCopy.images;
+    delete listingCopy.address;
+    location && (listingCopy.location = location);
+    !listingCopy.offer && delete listingCopy.discountedPrice;
+
+    const docRef = await addDoc(collection(db, "listings"), listingCopy);
+    setLoading(false);
+    toast.success("Listing saved");
+    navigate(`/category/${listingCopy.type}/${docRef.id}`);
   };
 
   if (loading) {
